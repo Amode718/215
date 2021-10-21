@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Styling</title>
+        <style>
+            #para
+            {
+                color: red;
+            }
+
+            p
+            {
+                color: green;
+            }
+
+            .para
+            {
+                color: blue;
+            }
+        </style>
+        <script>
+            "use strict";
+
+            function change_1_red()
+            {
+                document.querySelector("p").style.color = "red";
+            }
+
+            function change_2_big()
+            {
+                document.querySelector("#para").style.fontSize = "x-large";
+            }
+
+            function remove_3()
+            {
+                var element = document.getElementById("gone"); element.parentNode.removeChild(element);
+            }
+            function cross_heading()
+            {
+                document.querySelector("h1").style.textDecoration = "line-through";
+            }
+
+            function hide_buttons()
+            {
+                document.querySelector("div").style.display = "none";
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Changes</h1>
+        <p>Here's a simple paragraph.</p>
+        <p id="para">Another paragraph.</p>
+        <p class="para" id="gone">And a third paragraph.</p>
+        <div>
+            <button onclick="change_1_red()">1st -> red</button>
+            <button onclick="change_2_big()">2nd -> big</button>
+            <button onclick="remove_3()">3rd -> gone</button>
+            <button onclick="cross_heading()">Cross heading out</button>
+            <button onclick="hide_buttons()">Hide buttons</button>
+        </div>
+    </body>
+</html>

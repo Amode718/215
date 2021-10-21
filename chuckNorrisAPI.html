@@ -1,0 +1,36 @@
+<!-- 
+Andrei Modiga
+Chuck norris API
+11-12-2020
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Chuck Norris Joke</title>
+
+        <script>
+            "use strict";
+            
+             const baseURL = "http://api.icndb.com/jokes/random?limitTo=[nerdy]&escape=javascript";
+             const fetchOptions = { method: "GET" };
+
+            async function getJoke()
+            {
+                let response = await fetch(baseURL, fetchOptions);
+                let output = await response.json();
+                console.log(output);
+                document.getElementById("joke").innerHTML = output.value.joke;
+                
+            }
+        </script>
+        <body onload="getJoke()">
+            <h1>
+                Chuck Norris Joke
+            </h1>
+            <div>
+                <p id="joke">
+            </p>
+            </div>
+
+        </body>

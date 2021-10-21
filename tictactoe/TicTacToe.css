@@ -1,0 +1,12 @@
+#grid       { font-size: 40px; font-family: Courier New, monospace; width: fit-content;}
+.row        { height: 48px; }
+.rowTop     { border-bottom-style: solid; }
+.rowMiddle  { border-top-style: solid; border-bottom-style: solid; }
+.rowBottom  { border-top-style: solid; }
+.rowOdd     { background-color: lightgray; }
+.rowEven    { background-color: darkgray; }
+.cell       { float: left; width: 48px; text-align: center; border-right: solid; }
+.endCol     { border-right: none; }
+#turn       { display: none; font-size: 40px; font-family: Courier New, monospace; }
+.win        { background-color: yellow; }
+#row0       { visibility: hidden;}

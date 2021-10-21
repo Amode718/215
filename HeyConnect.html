@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Wire it up</title>
+        <script>
+            "use strict";
+
+            function greet()
+            {
+                let name = document.querySelector("#name").value;
+                document.querySelector("div").innerText =
+                    "Hello there, " + name + "!"; 
+            }
+
+            function age_calculation()
+            {
+                let age = document.querySelector("#age").value;
+                let days = Math.floor(age * 365.2422);
+                document.querySelector("#days").innerText =
+                    `On your birthday this year, you will have lived through at least  ${days} rotations of the earth!`;
+            }
+            
+        </script>
+    </head>
+    <body>
+        <h1>Greetings!</h1>
+        <label>What's your name?</label>
+        <input type="text" id="name" placeholder="Mary" />
+        <button type="button" onclick="greet()">Greet me!</button>
+        <div id="greeting">I'd like to greet you!</div>
+        <label>What will your age be after your birthday this year?</label>
+        <input type="number" id="age" value="18" min="1" max="969" />
+        <button type="button" onclick="age_calculation()">Calculate stuff</button>
+        <div id="days">So many days!</div>
+    </body>
+</html>

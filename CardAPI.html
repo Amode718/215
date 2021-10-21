@@ -1,0 +1,57 @@
+<!-- 
+Andrei Modiga
+Card Deck API
+11-12-2020
+-->
+<!DOCTYPE html>
+<style>
+    input {width: 5em;}
+    #drawnCard {width: 15%;}
+</style>
+<script>
+    const fetchOptions = { method: "GET" };
+    var deckID;
+    async function apiCall(url){
+        let response = await fetch(url, fetchOptions);
+        return await response.json();
+    }
+    async function generateID(){
+        deckID = (await apiCall("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")).deck_id;
+        console.dir(deckID);
+    }
+    async function drawCards(count){
+        let remaining = (await apiCall(`https://deckofcardsapi.com/api/deck/${deckID}/`)).remaining;
+        if (count > remaining){alert(`Please enter a lower number. There are only ${remaining} cards remaining.`)}
+        else{
+            if (count > 10 || count < 1){
+                alert("You can only draw up to ten cards! Please enter a number from 1 to 10. Please Try again.")
+            }
+            else{
+                let cards = await apiCall(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${count}`);
+                console.dir(cards.cards);
+                for (let item of cards.cards){
+                    displayCards(item.image);
+                }
+            }
+        }
+        document.getElementById("numCards").value = "";
+    }
+    function displayCards(png){
+        let display = document.getElementById("cards");
+        let img = document.querySelector("#template").cloneNode(false);
+        img.removeAttribute("id");
+        img.setAttribute("id", "drawnCard");
+        img.src = png;
+        display.appendChild(img);
+    }
+</script>
+<head>
+    <title>Card Deck</title>
+</head>
+<body onload="generateID()">
+    <p>How many cards would you like to draw?</p>
+    <input type="number" id="numCards" max=10 min="1" placeholder="10" onchange="drawCards(this.value)">
+    <div id="cards">
+        <img id="template">
+    </div> 
+</body>

@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <title>CodePen - Math Facts Review</title>
+
+        <style>
+
+            #stats{
+
+                display: none;
+
+                position:relative;
+
+                float: center;
+
+                border-collapse: collapse;
+
+                width: auto;
+
+                z-index: 100;
+
+            }
+
+            #stats th, td{
+
+                border: 1px solid black;
+
+                padding: 7px;
+
+            }
+
+            #stats #statsTitle{
+
+                background-color: gainsboro;
+
+            }
+
+            #question{
+                
+                display:none;
+
+            }
+
+            *{
+
+                font-size: xx-large;
+
+            }
+
+            #userAnswer{
+
+                width: 2em;
+
+            }
+
+            #history{
+
+                display: none;
+
+                position:relative;
+
+                float:inline-end;
+
+            }
+
+            #historyTitle{
+
+                display: none;
+
+                position:relative;
+
+                float:inline-end;
+
+            }
+
+            .start{
+
+                display:none;
+
+            }
+
+            #right{
+
+                width: 20%;
+
+                background-color: lightgreen;
+
+            }
+
+            #wrong{
+
+                width: 20%;
+
+                background-color: lightcoral;
+
+                text-decoration: line-through;
+
+            }
+
+            #score{
+
+                float:left;
+
+            }
+
+        </style>
+
+    </head>
+
+
+
+    <body translate="no">
+
+        <div><button id="startButton" onclick="createQuestion(); start();">Start</button></div>
+
+        
+
+        <div class="start" id="score">Current Score: ( <span>0</span> / <span>0</span> ≈ <span>0</span>% )</div><br>
+
+
+
+        <div id="question">
+
+            <span id="num1">3</span> <span id="oper">×</span> <span id="num2">6</span> =
+
+            <input type="number" id="userAnswer" min="0" max="99" onchange="checkAnswer(this.parentNode); updateScore();" /><span></span>
+
+        </div>
+
+        <div>
+
+            <table id="stats">
+
+                <tr id="statsTitle"><th colspan="5">Number Statistics</th></tr>
+
+                <tr>
+
+                    <th>zero</th>
+
+                    <th>one</th>
+
+                    <th>two</th>
+
+                    <th>three</th>
+
+                    <th>four</th>
+
+                </tr>
+
+                <tr>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>five</th>
+
+                    <th>six</th>
+
+                    <th>seven</th>
+
+                    <th>eight</th>
+
+                    <th>nine</th>
+
+                </tr>
+
+                <tr>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                    <td>0</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+
+        <div class="start" id="historyTitle">
+
+            <h1>Question History:</h1>
+
+        </div>
+
+
+
+        <div id="history">
+
+            <span id="history">
+
+                sample
+
+            </span>
+
+        </div>
+
+            <script id="rendered-js">
+
+                var incorrect = 0;
+
+                var correct = 0;
+
+                var numListCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+
+
+                function start(){
+
+                    document.getElementById("history").style.display = "block";
+
+                    document.getElementById("historyTitle").style.display = "block";
+
+                    document.querySelector(".start").style.display = "block";
+
+                    document.querySelector("#stats").style.display = "block";
+
+                    var button = document.getElementById("startButton");
+
+                    button.innerText = "Restart";
+
+                    button.setAttribute("onclick", "restart()")
+
+                }
+
+                function randrange(start, stop) {
+
+                    return Math.floor(Math.random() * (stop - start));
+
+                }
+
+
+
+                let rightAnswer;
+
+
+
+                function createQuestion() {
+
+                    let num1 = randrange(0, 10);
+
+                    let num2 = randrange(0, 10);
+
+                    let oper = "×+"[randrange(0, 2)];
+
+                    if (oper == '×'){
+
+                        rightAnswer = num1 * num2;
+
+                    }
+
+                    else{
+
+                            rightAnswer = num1 + num2;
+
+                    }
+
+                        document.querySelector("#num1").innerHTML = num1;
+
+                        document.querySelector("#num2").innerHTML = num2;
+
+                        document.querySelector("#oper").innerHTML = oper;
+
+                        document.querySelector("#question").style.display = "block";
+
+                        let userAnswer = document.querySelector("#userAnswer");
+
+                        userAnswer.value = "";
+
+                        userAnswer.focus();
+
+                }
+
+
+
+                function checkAnswer(item) {
+
+                    var history = document.getElementById("history");
+
+                    var fact = item.cloneNode(true);
+
+                    var span = document.createElement("SPAN");
+
+                    var brk = document.createElement("BR");
+
+                    let userAnswer = document.querySelector("#userAnswer").value;
+
+                    if (userAnswer == rightAnswer){
+
+                        alert("Correct!");
+
+                        fact.setAttribute("id", "right");
+
+                        span.innerHTML = userAnswer + "✔";
+
+                        fact.children[3].remove();
+
+                        fact.appendChild(span);
+
+                        history.prepend(fact);
+
+                        correct += 1;
+
+                    }
+
+                    else{
+
+                        stats(item);
+
+                        alert("Wrong! The right answer was " + rightAnswer);
+
+                        fact.setAttribute("id", "wrong");
+
+                        span.innerHTML = userAnswer + "❌";
+
+                        fact.children[3].remove();
+
+                        fact.appendChild(span);
+
+                        history.prepend(fact);
+
+                        incorrect += 1;
+
+                    }
+
+                    createQuestion();
+
+                }
+
+                function updateScore(){
+
+                    var scoreTemplate = document.getElementById("score");
+
+                    var total = correct + incorrect;
+
+                    var percent = ((correct/total) * 100).toFixed(2);
+
+                    scoreTemplate.children[0].innerHTML = correct;
+
+                    scoreTemplate.children[1].innerHTML = total;
+
+                    scoreTemplate.children[2].innerHTML = percent;
+
+                    if (percent >= 80){
+
+                        scoreTemplate.style.backgroundColor = "green";
+
+                    }
+
+                    else if (percent >= 65 && percent < 80){
+
+                        scoreTemplate.style.backgroundColor = "yellow";
+
+                    }
+
+                    else if (percent >= 50 && percent < 65){
+
+                        scoreTemplate.style.backgroundColor = "orange";
+
+                    }
+
+                    else{
+
+                        scoreTemplate.style.backgroundColor = "red";
+
+                    }
+
+                }
+
+                function stats(item){
+
+                    var table = document.getElementById("stats");
+
+                    numListCounter[parseInt(item.children[0].innerText)] += 1;
+
+                    table.getElementsByTagName("td")[parseInt(item.children[0].innerText)].innerHTML = numListCounter[parseInt(item.children[0].innerText)];
+
+                    numListCounter[parseInt(item.children[2].innerText)] += 1;
+
+                    table.getElementsByTagName("td")[parseInt(item.children[2].innerText)].innerHTML = numListCounter[parseInt(item.children[2].innerText)];
+
+                }
+
+                function restart(){
+
+                    if (confirm("Restart the game?")){
+
+                        var scoreTemplate = document.getElementById("score");
+
+                        scoreTemplate.children[0].innerHTML = 0;
+
+                        scoreTemplate.children[1].innerHTML = 0;
+
+                        scoreTemplate.children[2].innerHTML = 0;
+
+                        scoreTemplate.style.backgroundColor = "white";
+
+                        document.getElementById("history").innerText = "";
+
+                        createQuestion();
+
+                        correct =0;
+
+                        incorrect=0;
+
+                    }
+
+                }
+
+            </script>
+
+    </body>
+
+
+
+</html>
+

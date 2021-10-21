@@ -1,0 +1,196 @@
+<html>
+
+
+<style>
+html{
+  background: linear-gradient(#08f, #fff);
+  padding: 40px;
+  width: 170px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.trafficlight{
+  background: #222;
+  background-image: linear-gradient(transparent 2%, #111 2%, transparent 3%, #111 30%);
+  width: 170px;
+  height: 400px;
+  border-radius: 20px;
+  position: relative;
+  border: solid 5px #333;
+}
+
+.trafficlight:before{
+  background: #222;
+  background-image: radial-gradient(#444, #000);
+  content: "";
+  width: 170px;
+  height: 150px;
+  margin: 0 auto;
+  position: absolute;
+  top: -20px;
+  margin-left: 0px;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.trafficlight:after{
+  background: #222;
+  background-image: linear-gradient(-0deg, #777 10%, #ccc 30%, #000);
+  content: "";
+  width: 50px;
+  height: 500px;
+  margin-left: 60px;
+  position: absolute;
+  top: 150px;
+  z-index: -1;
+}
+
+.protector{
+  background: transparent;
+  width: 180px;
+  height: 0;
+  position: absolute;
+  top: 20px;
+  left: -35px;
+  border-right: solid 30px transparent;
+  border-left: solid 30px transparent;
+  border-top: solid 90px #111;
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.protector:nth-child(2){
+  top: 140px;
+}
+
+.protector:nth-child(3){
+  top: 260px;
+}
+
+.red{
+  opacity: 0.1;
+  background: red;
+  background-image: radial-gradient(brown, transparent);
+  background-size: 5px 5px; 
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  left: 35px;
+  animation: 0s red infinite;
+  border: dotted 2px red;
+  box-shadow: 
+    0 0 20px #111 inset,
+    0 0 10px red;
+}
+
+.yellow{
+  opacity: 0.1;
+  background: yellow;
+  background-image: radial-gradient(orange, transparent);
+  background-size: 5px 5px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: dotted 2px yellow;
+  position: absolute;
+  top: 145px;
+  left: 35px;
+  animation: 0s yellow infinite;
+  box-shadow: 
+    0 0 20px #111 inset,
+    0 0 10px yellow;
+}
+
+.green{
+  opacity: 0.1;
+  background: green;
+  background-image: radial-gradient(lime, transparent);
+  background-size: 5px 5px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: dotted 2px lime;
+  position: absolute;
+  top: 270px;
+  left: 35px;
+  box-shadow: 
+    0 0 20px #111 inset,
+    0 0 10px lime;
+  animation: 0s green infinite;
+}
+
+
+
+@keyframes red{
+  0%{opacity: 1}
+  20%{opacity: 1}
+  40%{opacity: 1}
+  60%{opacity: .1}
+  80%{opacity: .1}
+  100%{opacity: .1}
+}
+
+@keyframes yellow{
+  0%{opacity: .1}
+  20%{opacity: .1}
+  40%{opacity: 1}
+  50%{opacity: .1}
+  60%{opacity: .1}
+  80%{opacity: .1}
+  86%{opacity: 1}
+  100%{opacity: 1}
+}
+
+@keyframes green{
+  0%{opacity: .1}
+  40%{opacity: .1}
+  60%{opacity: 1}
+  80%{opacity: 1}
+  83%{opacity: .1}
+  100%{opacity: .1}
+}
+</style>
+
+
+<div class="trafficlight">
+  <div class="protector"></div>
+  <div class="protector"></div>
+  <div class="protector"></div>
+
+  <div class="red" onclick = "changeRed()" id = "red"></div>
+  <div class="yellow" onclick = "changeYellow()" id = "yellow"></div>
+  <div class="green" onclick = "changeGreen()" id = "green"></div>
+</div>
+
+    
+    
+<script>
+    
+    
+function changeRed() {
+  document.getElementById('red').style.opacity = 1000;    
+  document.getElementById('yellow').style.opacity = 0.1;
+  document.getElementById('green').style.opacity = 0.1;    
+}
+function changeYellow() {
+  document.getElementById('red').style.opacity = 0.1;
+  document.getElementById('yellow').style.opacity = 100;
+  document.getElementById('green').style.opacity = 0.1;    
+}
+function changeGreen() {
+  document.getElementById('red').style.opacity = 0.1;
+  document.getElementById('yellow').style.opacity = 0.1;
+  document.getElementById('green').style.opacity = 100;    
+}
+    
+
+    
+    
+    
+    
+</script>
+        
+</html>

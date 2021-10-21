@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Guess Your Number</title>
+        <style>
+            #guessingUI { display: none; }
+        </style>
+        <script>
+            function start()
+            {
+                document.getElementById("startUI").style.display = "none";
+                document.getElementById("guessingUI").style.display = "block";
+                guess();
+                return false;
+            }
+            
+            function guess()
+            {
+                let guessNum = document.getElementById("guessNum");
+                guessNum.innerHTML = Number(guessNum.innerHTML) + 1;
+                lo = Number(document.getElementById("lowVal").innerHTML);
+                hi = Number(document.getElementById("highVal").innerHTML);
+                document.getElementById("guessVal").innerHTML = Math.floor((lo + hi) / 2);
+            }
+
+            function lower()
+            {
+                document.getElementById("highVal").innerHTML = 
+                    Number(document.getElementById("guessVal").innerHTML) - 1;
+                guess();
+            }
+
+            function higher()
+            {
+                document.getElementById("lowVal").innerHTML = 
+                    Number(document.getElementById("guessVal").innerHTML) + 1;
+                guess();
+            }
+
+            function gotIt()
+            {
+                alert("Yay! Aren't I smart?! It only took me " +
+                    document.getElementById("guessNum").innerHTML +
+                    " guesses!");
+                return false;
+            }
+
+            function startOver()
+            {
+                document.getElementById("guessNum").innerHTML = 0;
+                document.getElementById("lowVal").innerHTML = 1;
+                document.getElementById("highVal").innerHTML = 100;
+                document.getElementById("guessingUI").style.display = "none";
+                document.getElementById("startUI").style.display = "block";
+                return false;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Guess Your Number</h1>
+        <p>Think of a number between 1 and 100. I'll guess it in 7 guesses (or fewer).</p>
+        <form>
+            <div id="startUI">
+                <label>Think of a number and press </label>
+                <button onclick="return start();">start</button>
+            </div>
+            <div id="guessingUI">
+                <p>Guess #<span id="guessNum">0</span>
+                    between <span id="lowVal">1</span>
+                    and <span id="highVal">100</span>
+                    is <span id="guessVal">X</span></p>
+                <p>Is your number <button type="button" onclick="lower()">lower</button>
+                    or <button type="button" onclick="higher()">higher</button>,
+                    or do you have to admit I <button type="button" onclick="gotIt()">got it</button>?</p>
+                <p>If you make a mistake, you can give up and
+                    <button type="button" onclick="startOver()">start over</button>.
+                </p>
+            </div>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="TicTacToe.css">
+    <script src="TicTacToe.js"></script>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <form id="ttt">
+        <div id="setup">
+            <label for="size">Size:</label>
+            <input type="number" min="2" max="7" value="3" id="size">
+            <button id="start" onclick="return createBoard();">Start</button>
+        </div>
+        <div id="turn"><span id="player">X</span>'s turn</div>
+        <div id="row0" class="row">
+            <span id="cell00" class="cell" onclick="playAt(this);">&nbsp;</span>
+        </div>
+        <div id="grid"></div>
+    </form>
+</body>
+</html>

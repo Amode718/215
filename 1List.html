@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Shopping list</title>
+
+    <link rel="stylesheet" href="">
+
+
+  </head>
+
+  <body style="background-color:black;">
+      <h1 style="color: white">Shopping list</h1>
+
+
+<div class="form">
+  <label for="item" style="color: white">Add item to list: </label><input type="text" id="item" name="item" placeholder = "Item...">
+ <input id="price" type = "text" placeholder = "Price...">
+  <button id="submit">Submit item</button>
+  <button id="clear">Clear items</button>
+<h1 class="" style="color: aqua">Needed</h1>
+</div>
+
+<ul id="list" class="checkmark" style="color: white">
+    <span><input type="checkbox"> 5lbs Apples</span>
+</ul>
+
+
+  </body>
+
+<style>
+    .column{
+        float:left;
+        width:30%;
+        padding: 10px
+    }
+    
+</style>
+
+
+  <script>
+   var itemInput = document.getElementById("item");
+   var clear = document.getElementById("clear");
+   var submit = document.getElementById("submit");
+   var list = document.getElementById("list");
+      
+    
+
+   function addItem() {
+     var currentItem = itemInput.value;
+     var listItem = document.createElement("li");
+     listItem.innerHTML = currentItem;
+
+     list.appendChild(listItem);
+
+     itemInput.value = "";
+   }
+
+      submit.onclick = addItem;
+
+   clear.onclick = function() {
+     list.innerHTML = "";
+     itemInput.value = "";
+
+   }
+   
+
+   
+   // Makes the Enter button work for adding text to list.
+   itemInput.addEventListener("keyup", function (event) { 
+            if (event.keyCode == 13) { 
+                submit.click(); 
+            } 
+        }); 
+
+  </script>
+</html>

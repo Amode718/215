@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>DOMinate</title>
+        <style>
+            .template
+            {
+                display: none;
+            }
+            .checked{
+                text-decoration: line-through;
+            }
+        </style>
+        <script>
+            "use strict";
+            var classNum = 0;
+
+            function addItem()
+            {
+                classNum++;
+                let description = document.getElementById("input").value; 
+                
+                let template = document.querySelector(".template").cloneNode(true); 
+                template.removeAttribute("class");
+                template.removeAttribute("id");
+                template.classList.add(classNum.toString());
+
+                var item = template.lastChild.previousSibling;
+                item.innerHTML = description;
+                
+                document.getElementById("list").prepend(template);
+                document.getElementById("input").value = "";
+                document.getElementById("input").focus();
+            }
+            
+            function check(item) {
+                if (item.children[0].checked){
+                    item.children[1].setAttribute("class", "checked");
+                } else {
+                    item.children[1].classList.remove("checked");
+                    
+                }
+                
+            }
+        </script>
+    </head>
+    <body>
+        <h1>DOM To-Do List</h1>
+        <div>
+            <input type="text" id="input" placeholder="to-do item" />
+            <button type="button" onclick="addItem()">Add</button>
+        </div>
+        <h2>Items</h2>
+        <div id="list">
+        
+        </div>
+        <div class="template" id="templateItem">
+            <input type="checkbox" onclick="check(this.parentNode)"/>
+            <span class="item">to-do item</span>
+        </div>
+    </body>
+</html>

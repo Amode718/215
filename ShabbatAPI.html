@@ -1,0 +1,42 @@
+<!-- 
+Andrei Modiga
+Shabbat API
+11-12-2020
+-->
+<!DOCTYPE html>
+<style>
+#day, #month {width: 5em;}
+    #year {width: 5em;}
+    #result {display: none;}
+</style>
+<script>
+
+    const baseURL = "https://www.hebcal.com/shabbat?cfg=json&geonameid=4612862&m=0&b=1";
+    const fetchOptions = { method: "GET" };
+
+    async function callIt()
+    {
+        let month = document.getElementById("month").value;
+        let day = document.getElementById("day").value;
+        let year = document.getElementById("year").value;
+        let response = await fetch(baseURL + `&gy=${year}&gm=${month}&gd=${day}`, fetchOptions);
+        return await response.json();
+     }
+    async function getTimes(){
+        let info = await callIt();
+        console.log(info);
+        let time = info.items[0].date;
+        console.log(info.items[0].date);
+        document.getElementById("time").innerText = new Date(time);
+        document.getElementById("result").style.display = "block";
+    }
+</script>
+<head><title>Shabbat Times</title></head>
+<body>
+    <div>Enter a date: <span><input type="number" id="month" placeholder="month" max=12></span>/<span><input type="number" id="day" placeholder="day" max=31></span>/<span><input type="number" id="year" placeholder="year"></span></div>
+    <button onclick="getTimes();">Sunset</button>
+    <p id="result">Be holy after this time ---> <span id="time"></span>.</p>
+</body>
+
+
+

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            
+            html {
+                background-color: black;
+                color: white;
+            }
+            
+            #submit {
+                background-color: #ff6666;
+                width: 261px;
+                height: 50px;
+                border: 3px solid white;
+                color: white;
+                font-family: cursive;
+                font-size: 12px;
+                margin: 5px;
+            }
+            
+            #question {
+                border: 3px solid white;
+                height: 20px;
+                width: 236px;
+                text-align: center;
+                padding: 10px;
+                margin: 5px;
+            }
+            
+            #input {
+                width: 30px;
+                background-color: black;
+                color: white;
+                border: 2px solid white;
+            }
+            
+            #result {
+                border: 3px solid white;
+                height: 250px;
+                width: 100px;
+                text-align: center;
+                padding: 10px;
+                position: fixed;
+                float: right;
+                margin: 5px;
+                top: 0; 
+                right: 0;
+            }
+            
+            #score {
+                border: 3px solid white;
+                height: 30px;
+                width: 237px;
+                text-align: center;
+                padding: 10px;
+                float: left;
+                margin: 5px;
+            }
+            
+            #history {
+                border: 3px solid white;
+                margin-top: 74px;
+                margin-left: 5px;
+                padding: 10px;
+                width: 237px;
+                text-align: center;
+            }
+            
+            #incorrect {
+                color: black;
+            }
+            
+        
+        </style>
+        <script>
+            var ans;
+            var correct = 0;
+            var incorrect = 0;
+            var total = 0;
+            
+            function addToHistory(num1, num2, oper, inp, ans) {
+                if (inp == "") {
+                    inp = 0;
+                }
+                var problem = num1 + " " + oper + " " + num2 + " = " + inp;
+                
+                var linebreak = document.createElement("br");
+                document.querySelector("#history").insertBefore(linebreak, document.querySelector("#history").childNodes[0] || null);
+                
+                var el = document.createElement("span");
+                var innerTxt = document.createTextNode(problem);
+                el.appendChild(innerTxt);
+                el.setAttribute("id", total);
+                document.querySelector("#history").insertBefore(el, document.querySelector("#history").childNodes[0] || null);
+                
+                
+                
+                
+                
+                if (ans == 0) {
+                    document.getElementById(total).style.textDecoration = "line-through";
+                    document.getElementById(total).innerHTML = "&#10060; " + document.getElementById(total).innerHTML + " &#10060;";
+                    
+                    document.getElementById(total).style.color = "red";
+                } else {
+                    document.getElementById(total).style.color = "green";
+                }
+                
+                
+                
+            }
+            
+            function randrange(start, stop) {
+                return Math.floor(Math.random() * (stop - start))
+            }
+            
+            function create_question() {
+                var num1 = randrange(0,10);
+                var num2 = randrange(0,10);
+                var oper = randrange(0,2);
+                var operation = ""
+                
+                if (oper == 0) {
+                    ans = num1 * num2;
+                    operation = 'x';
+                    
+                } else {
+                    ans = num1 + num2;
+                    operation = '+';
+                }
+                
+                document.querySelector("#num1").innerHTML = num1;
+                document.querySelector("#num2").innerHTML = num2;
+                document.querySelector("#oper").innerHTML = operation;
+                document.querySelector("#question").style.display = "block";
+            }
+            
+            function check_answer() {
+                if (ans == document.getElementById("input").value) {
+                    addToHistory(document.querySelector("#num1").innerHTML, document.querySelector("#num2").innerHTML, document.querySelector("#oper").innerHTML, document.getElementById("input").value, 1);
+                    
+                    correct++;
+                    total++;
+                    document.querySelector("#message").innerHTML = "That was correct!";
+                } else {
+                    addToHistory(document.querySelector("#num1").innerHTML, document.querySelector("#num2").innerHTML, document.querySelector("#oper").innerHTML, document.getElementById("input").value, 0);
+                    
+                    incorrect++;
+                    total++;
+                    document.querySelector("#message").innerHTML = "That was incorrect!";
+                }
+
+                document.querySelector("#correct").innerHTML = "Correct: " + Math.trunc((correct / total) * 100).toString() + "%";
+                document.querySelector("#incorrect").innerHTML = "Incorrect: " + (Math.trunc((incorrect / total) * 100)).toString() + "%";
+                document.querySelector("#total").innerHTML = "Total: " + total.toString();
+                document.getElementById("input").value = null;
+                create_question();
+            }
+            
+        </script>
+    </head>
+    
+    <body onload="create_question()">
+        <button id="submit" onclick="check_answer()">Submit</button>
+        
+        <br>
+        <br>
+        <div id="question">
+            <span id="num1">3</span>
+            <span id="oper">x</span>
+            <span id="num2">6</span>
+            <span>=</span>
+            <input type="" id="input" placeholder="0">
+        </div>
+        <br>
+        
+        <div id="score">
+            <span id="message"></span>
+        </div>
+        <div id="result">
+            <span id="correct">Correct: 0%</span>
+            <span id="incorrect">Incorrect: 0%</span>
+            <span id="total">Total: 0</span>
+            <br>
+            <span id="0">0 = 0%</span>
+            <br>
+            <span id="1">1 = 0%</span>
+            <br>
+            <span id="2">2 = 0%</span>
+            <br>
+            <span id="3">3 = 0%</span>
+            <br>
+            <span id="4">4 = 0%</span>
+            <br>
+            <span id="5">5 = 0%</span>
+            <br>
+            <span id="6">6 = 0%</span>
+            <br>
+            <span id="7">7 = 0%</span>
+            <br>
+            <span id="8">8 = 0%</span>
+            <br>
+            <span id="9">9 = 0%</span>
+            
+        </div>
+
+        <br>    
+        <div id="history">
+        <br>
+        </div>
+        
+    </body>
+</html>

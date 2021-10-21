@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>
+Tip Calculator
+</title>
+<script>
+function tipDetails()
+{
+
+   var billAmount = parseFloat(document.getElementById("billAmount").value);
+   var tipPercent = parseFloat(document.getElementById("tip").value);
+   tipPercent = tipPercent/100; 
+   var numPeople = parseInt(document.getElementById("numPeople").value);
+
+   var tipAmount = billAmount*tipPercent;
+   var totalBill = billAmount + tipAmount;
+   var totalPerPerson = totalBill/numPeople; 
+    
+   document.getElementById("tipAmount").innerHTML = tipAmount.toFixed(2);
+   document.getElementById("totalBill").innerHTML = totalBill.toFixed(2);
+   document.getElementById("perPerson").innerHTML = totalPerPerson.toFixed(2);
+}
+</script>
+</head>
+<body>
+<h2>Tip Calculator</h2>
+<table >
+<tr>
+   <td><label>Bill Amount: </label></td>
+   <td><input type="number" id="billAmount" name="billAmount"></td>
+</tr>
+<tr>
+   <td><label>Tip%:</label></td>
+   <td><input type="number" id="tip" name="tip"> (enter as a whole number)</td>
+</tr>  
+<tr>
+   <td><label>#of People: </label></td>
+   <td><input type="number" id="numPeople"/></td>
+</tr>
+<tr>
+   <td><label>Tip amount: </label></td>
+   <td><p id="tipAmount"</p></td>
+</tr>  
+<tr>
+   <td><label>Total Bill:: </label></td>
+   <td><p id="totalBill"</p></td>
+</tr>
+<tr>
+   <td><label>Total per Person: </label></td>
+   <td><p id="perPerson"</p></td>
+</tr>
+<tr>
+   <td><button onclick="tipDetails()">Order Details</button></td>
+</tr>  
+</table>
+</body>
+</html>

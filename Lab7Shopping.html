@@ -1,0 +1,231 @@
+<!--Andrei Modiga
+Lab 7 
+Shopping List-->
+<!DOCTYPE html>
+<style>
+    .column{
+        float:left;
+        width: 40%;
+        padding: 10px
+    }
+    .template{
+        display: none;
+    }
+    .clear{
+        clear: both;
+    }
+    li {
+        list-style-type: none;
+    }
+    ul {
+        padding: 0;
+    }
+    #delete{
+        border: none;
+        font-weight: bold;
+        font-size: large;
+        background-color: white;
+    }
+    #delete:hover{
+        background-color:red;
+    }
+    #edit{
+        border: none;
+        font-weight: bold;
+        font-size: large;
+        background-color:white;  
+    }
+    #edit:hover{
+        background-color:blue;
+    }
+</style>
+
+<script> 
+    var NeedTotal = 0.00;
+    var CartTotal = 0.00;
+
+    function TotalN(){
+        var total = document.getElementById("needTotal");
+        var val = parseFloat(document.getElementById("price").value) * parseInt(document.getElementById("quantity").value);
+        NeedTotal += val;
+        total.innerHTML = NeedTotal.toFixed(2);
+    }
+    
+    function TotalC(item){
+        var ctotal = document.getElementById("cartTotal");
+        var ntotal = document.getElementById("needTotal");
+        var val = parseFloat(item.children[4].innerText);
+        if (item.firstChild.checked) {
+            CartTotal += val;
+            NeedTotal -= val;
+        }
+        else{
+            CartTotal -= val;
+            NeedTotal += val;
+        }
+        ctotal.innerHTML = CartTotal.toFixed(2);
+        ntotal.innerHTML = NeedTotal.toFixed(2);
+    }
+
+    function addItem(){
+        var template = document.querySelector("li.template").cloneNode(true);
+        template.classList.remove("template");
+
+        template.children[1].innerHTML = document.getElementById("quantity").value;
+        template.children[2].innerHTML = document.getElementById("unit").value;
+        template.children[3].innerHTML = document.getElementById("itemName").value;
+        template.children[4].innerHTML = (parseFloat(document.getElementById("price").value) * parseInt(document.getElementById("quantity").value)).toFixed(2);
+        template.children[5].innerHTML = document.getElementById("unit").value;
+        
+        document.getElementById("listItems").appendChild(template);
+    }
+
+    function clearInput(){
+        document.getElementById("quantity").value = '1';
+        document.getElementById("unit").value = '';
+        document.getElementById("itemName").value = '';
+        document.getElementById("price").value = '';
+    }
+
+function deleteItem(item){
+
+        var price = parseFloat(item.children[4].innerText);
+
+        var msg = "Are you sure you want to delete " + item.children[3].innerText + "?";
+
+        if (confirm(msg)){
+
+            item.style.display = "none";
+
+            if (item.children[0].checked){
+
+                CartTotal -= price;
+
+                document.getElementById("cartTotal").innerText = parseFloat(CartTotal).toFixed(2);
+
+            }
+
+            else{
+
+                NeedTotal -= price;
+
+                document.getElementById("needTotal").innerText = parseFloat(NeedTotal).toFixed(2);
+
+            }
+
+        }
+
+    }
+
+    function editItem(item){
+        if (confirm("Do you want to edit this item?")){
+            var oldPrice = parseFloat(item.children[4].innerText);
+            var quantity = prompt("Enter new quantity: ");
+            if(quantity != null && quantity != ""){
+                item.children[1].innerHTML = quantity;
+            }
+            var unit = prompt("Enter new unit (lbs, bags, jar, pkg, box): ");
+            if(unit != null && unit != ""){
+                item.children[2].innerHTML = unit;
+            }
+            var itemName = prompt("Enter new item name: ");
+            if(itemName != null && itemName != ""){
+                item.children[3].innerHTML = itemName;
+            }
+            var price = prompt("Enter new price: ");
+            if(price != null && price != ""){
+                item.children[4].innerText = (parseFloat(price) * parseInt(item.children[1].innerHTML)).toFixed(2);
+            }
+            item.children[5].innerText = price + unit;
+            
+            if (item.children[0].checked){
+                var total = document.getElementById("cartTotal");
+                CartTotal -= oldPrice;
+                CartTotal += parseFloat(item.children[4].innerHTML);
+                console.log(CartTotal);
+                total.innerHTML = parseFloat(CartTotal).toFixed(2);
+            }
+            else{
+                var total = document.getElementById("needTotal");
+                NeedTotal -= oldPrice;
+                NeedTotal += parseFloat(item.children[4].innerHTML);
+                total.innerText = parseFloat(NeedTotal).toFixed(2);
+            }
+
+            // var modal = document.querySelector(".inputVals").cloneNode(true);
+            // console.log(modal);
+            // modal.className = "modal";
+            // modal.style.display = "block";
+            // document.getElementById("modal").innerHTML = modal.innerHTML;
+            // document.getElementById("modal").style.display = "block";
+        }
+
+    }
+
+    function moveToCart(item){
+        if (item.firstChild.checked) {
+            document.getElementById("cartItems").appendChild(item);
+        }
+        else {
+            document.getElementById("listItems").appendChild(item);
+        }
+    }
+
+    function clearCart(){
+        if (confirm("Do you want to check out?")){
+            document.getElementById("cartItems").innerHTML = "";
+            CartTotal = 0;
+            document.getElementById("cartTotal").innerHTML = CartTotal.toFixed(2);
+        }
+}
+
+</script>
+
+<html>
+<head id="head">
+    <title>Shopping List</title>
+    <h1>Shopping List</h1>
+</head>
+<body id="body">
+    <div class="inputVals">
+        <div id="content">
+        <input type="number" step="1" min="1" max="" id="quantity" name="quantity" value="1" style="width: 3em">
+        <input type="text" id="itemName" placeholder="New Item">
+        <input type="number" id="price" name="price" placeholder="$00.00" min="0" max="" step="0.01" style="width: 5em">
+        <select name="unit" id="unit">
+            <option value="" disabled selected hidden>Choose a Unit</option>
+            <option value="lbs">lbs</option>
+            <option value="bag">bags</option>
+            <option value="jar">jar</option>
+            <option value="pkg">package</option>
+            <option value="box">box</option>
+        </select>
+        <button class="AddItems" type ="button" onclick="addItem(); TotalN(); clearInput();">Add</button>
+    </div> 
+    </div> 
+
+    <div class="row">
+        <div class="column">
+            <h2>Needed ($<span id="needTotal">0.00</span><span>)</span></h2>
+            <div class="needItems">
+                <ul id="listItems">
+                    <li class="template need"><input type="checkbox" onclick="moveToCart(this.parentNode); TotalC(this.parentNode);"><span>0</span> <span>unit</span> <span>name</span> ($<span>0.00</span>/<span>pounds</span>) <button id="edit"onclick="editItem(this.parentNode);">...</button> <button id="delete" onclick="deleteItem(this.parentNode)">x</button></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="column">
+            <h2>In Cart ($<span id="cartTotal">0.00</span>)</h2>
+            <div class="haveItems">
+                <ul id="cartItems">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear">
+        <button onclick="clearCart()">Check Out</button>
+    </div>
+</body>
+</html>
+

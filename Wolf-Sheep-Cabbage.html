@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <script>
+        function moveAcross(whom) {
+            let source = document.getElementById(whom);
+            let destination;
+            if (source.parentNode.id == "left")
+                destination = "right";
+            else
+                destination = "left";
+            document.getElementById(destination).appendChild(source);
+            if (whom != "boat")
+                document.getElementById(destination).appendChild(document.getElementById("boat"));
+            checkSides();
+            return false;
+        }
+        function columnContents(name) {
+            return Array.from(document.getElementById(name).children).map(node => node.id);
+        }
+        function checkSides() {
+            let leftBank = columnContents("left"); 
+            let rightBank = columnContents("right");
+            for (bank of [ leftBank, rightBank ]) {
+                if (bank.includes("wolf") && bank.includes("sheep") && !bank.includes("boat"))
+                    problem("The wolf ate the sheep!");
+                else if (bank.includes("cabbage") && bank.includes("sheep") && !bank.includes("boat"))
+                    problem("The sheep ate the cabbage!");
+                
+            }
+            for (bank of [ rightBank ]){
+               if (bank.includes("wolf") && bank.includes("sheep") && bank.includes("cabbage") && bank.includes("boat"))
+                    problem("Nice job! You win!"); 
+                
+            }
+            
+        }
+        function problem(message) {
+            setTimeout(function () { alert(message); }, 2);
+        }
+    </script>
+    <style>
+        .item {
+            width: 100px;
+            position: relative;
+            left: 0px;
+            top: 0px;
+            padding: 5px;
+        }
+
+        #river {
+            background-color: blue;
+            width: 200px;
+            float: left;
+            height: 450px;
+        }
+
+        .bank {
+            text-align: center;
+            background-color: tan;
+            width: 120px;
+            float: left;
+            height: 450px;
+        }
+    </style>
+    <title>Wolf-Sheep-Cabbage game</title>
+</head>
+
+<body>
+    <div id=description>
+        <h1>Wolf-Sheep-Cabbage game</h1>
+        <p>Goal: Get all 3 "passengers" to the other side of the river.</p>
+        <p>Constraints:</p>
+        <ul>
+            <li>You can only take 1 item across with you on the boat</li>
+            <li>The wolf can't be left alone with the sheep--chomp!</li>
+            <li>The sheep can't be left alone with the cabbage--chomp!</li>
+            <li>Wolves are strict carnivores, so they won't each cabbage</li>
+            <li>Cabbages are strict vegans, so they won't even eat sheep's milk, much less wolves(')</li>
+        </ul>
+        <p>Instructions:</p>
+        <ul>
+            <li>Click an item to take it to the other side of the river using the boat</li>
+            <li>You can also click on the boat by itself to cross without taking an item</li>
+        </ul>
+    </div>
+    <div id=game>
+        <div id=left class=bank>
+            <img id=boat src=Boat.svg class=item alt=Boat onclick="return moveAcross('boat');">
+            <img id=wolf src=Wolf.svg class=item alt=Wolf onclick="return moveAcross('wolf');">
+            <img id=sheep src=Sheep.svg class=item alt=Sheep onclick="return moveAcross('sheep');">
+            <img id=cabbage src=Cabbage.svg class=item alt=Cabbage onclick="return moveAcross('cabbage');">
+        </div>
+        <div id=river>
+            <p></p>
+        </div>
+        <div id=right class=bank>
+        </div>
+    </div>
+
+</body>
+
+</html>
